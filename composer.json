@@ -1,0 +1,25 @@
+{
+  "name": "synga/laravel-service-provider-helper",
+  "description": "This package can find classes which are extended, implemented by a certain class or is using a certain trait.",
+  "autoload": {
+    "psr-4" : {
+      "Synga\\ServiceProviderHelper\\" : "src"
+    }
+  },
+  "authors": [
+    {
+      "name": "Roy Pouls",
+      "email": "packagist@synga.nl",
+      "homepage": "https://www.synga.nl"
+    }
+  ],
+  "license": "MIT",
+  "require": {
+    "php": ">=5.4",
+    "synga/inheritance-finder": "*@dev",
+    "laravel/framework": "5.*"
+  },
+  "require-dev" : {
+    "phpunit/phpunit": "5.1.*"
+  }
+}
