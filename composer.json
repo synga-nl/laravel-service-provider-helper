@@ -1,6 +1,6 @@
 {
   "name": "synga/laravel-service-provider-helper",
-  "description": "This package can find classes which are extended, implemented by a certain class or is using a certain trait.",
+  "description": "The package can add service providers to your app.php when composer update finishes",
   "autoload": {
     "psr-4" : {
       "Synga\\ServiceProviderHelper\\" : "src"
