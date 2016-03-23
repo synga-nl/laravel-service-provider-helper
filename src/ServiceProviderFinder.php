@@ -8,6 +8,7 @@
  */
 
 namespace Synga\ServiceProviderHelper;
+use Synga\InheritanceFinder\InheritanceFinderInterface;
 use Synga\InheritanceFinder\PhpClass;
 
 /**
@@ -16,6 +17,15 @@ use Synga\InheritanceFinder\PhpClass;
  */
 class ServiceProviderFinder
 {
+    /**
+     * @var InheritanceFinderInterface
+     */
+    protected $inheritanceFinder;
+
+    public function __construct(InheritanceFinderInterface $inheritanceFinder) {
+        $this->inheritanceFinder = $inheritanceFinder;
+    }
+
     /**
      * Compares service providers found in files with the config service providers
      *
