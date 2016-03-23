@@ -1,6 +1,7 @@
 <?php
 namespace Synga\ServiceProviderHelper;
 
+use Synga\InheritanceFinder\File\FileConfig;
 use Synga\InheritanceFinder\InheritanceFinderFactory;
 
 /**
@@ -16,7 +17,11 @@ class ServiceProviderHelperServiceProvider extends \Illuminate\Support\ServicePr
         $this->app->when('Synga\ServiceProviderHelper\ServiceProviderFinder')
             ->needs('Synga\InheritanceFinder\InheritanceFinderInterface')
             ->give(function () {
-                return InheritanceFinderFactory::getInheritanceFinder(storage_path('class_cache'));
+                $config = new FileConfig();
+                $config->setApplicationRoot(base_path());
+                $config->setCacheDirectory(storage_path('class_cache'));
+
+                return InheritanceFinderFactory::getInheritanceFinder($config);
             });
 
         $this->commands([
