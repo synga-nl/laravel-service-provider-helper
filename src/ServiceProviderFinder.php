@@ -45,7 +45,7 @@ class ServiceProviderFinder
             ];
         }
 
-        foreach(['firstArray' => $firstArray, 'secondArray' =
+        foreach(['firstArray' => $firstArray, 'secondArray' => $secondArray] as $varName => $arg){
             if(is_a($arg[0], PhpClass::class)){
                 $$varName = $this->getFullQualifiedNamespaceArray($arg);
             }
