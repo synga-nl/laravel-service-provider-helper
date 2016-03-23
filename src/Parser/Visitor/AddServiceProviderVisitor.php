@@ -2,12 +2,13 @@
 namespace Synga\ServiceProviderHelper\Parser\Visitor;
 
 use PhpParser\Node;
+use PhpParser\NodeVisitorAbstract;
 
 /**
  * Class AddServiceProviderVisitor
  * @package Synga\ServiceProviderHelper\Parser\Visitor
  */
-class AddServiceProviderVisitor
+class AddServiceProviderVisitor extends NodeVisitorAbstract
 {
     /**
      * @var array
@@ -16,6 +17,7 @@ class AddServiceProviderVisitor
 
     /**
      * @param Node $node
+     * @return false|null|Node|\PhpParser\Node[]|void
      */
     public function leaveNode(Node $node) {
         if ($node instanceof \PhpParser\Node\Expr\ArrayItem) {

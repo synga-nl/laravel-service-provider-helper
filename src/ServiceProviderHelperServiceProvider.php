@@ -10,7 +10,7 @@ use Synga\InheritanceFinder\InheritanceFinderFactory;
 class ServiceProviderHelperServiceProvider extends \Illuminate\Support\ServiceProvider
 {
     /**
-     *
+     * Registers c
      */
     public function register() {
         $this->app->when('Synga\ServiceProviderHelper\ServiceProviderHelper')
@@ -20,7 +20,7 @@ class ServiceProviderHelperServiceProvider extends \Illuminate\Support\ServicePr
             });
 
         $this->commands([
-            'Synga\FrameworkKernelHelper\Laravel\Command\DetectServiceProviderCommand'
+            \Synga\ServiceProviderHelper\Command\DetectServiceProviderCommand::class
         ]);
     }
 
