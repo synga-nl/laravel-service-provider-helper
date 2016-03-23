@@ -84,9 +84,9 @@ class DetectServiceProviderCommand extends Command
 
         $parsedNodes = $traverser->traverse($nodes);
 
-        $prettyPrinter = new ServiceProviderPrettyPrinter();
+        $prettyPrinter = new ServiceProviderPrettyPrinter(['shortArraySyntax' => true]);
         $code = $prettyPrinter->prettyPrint($parsedNodes);
 
-        file_put_contents($configFilePath, $code);
+        file_put_contents($configFilePath, "<?php\r\n" . $code);
     }
 }
