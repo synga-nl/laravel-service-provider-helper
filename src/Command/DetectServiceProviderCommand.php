@@ -64,7 +64,7 @@ class DetectServiceProviderCommand extends Command
         $toBeAdded = [];
 
         while (true) {
-            $output = $this->output->choice('Which service provider do you want to add?', array_merge($differences['first_diff_second'], ['exit']));
+            $output = $this->output->choice('Which service provider do you want to add?', array_merge(array_diff($differences['first_diff_second'], $toBeAdded), ['exit']));
 
             if ($output == 'exit') {
                 break;

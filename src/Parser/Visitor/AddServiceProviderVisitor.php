@@ -24,7 +24,9 @@ class AddServiceProviderVisitor extends NodeVisitorAbstract
             if (is_object($node->key)) {
                 if ($node->key->value == "providers") {
                     if (is_array($node->value->items)) {
-                        $node->value->items[] = $this->addServiceProvider('Synga\FrameworkKernelHelper\Laravel\FrameworkKernelHelperServiceProvider');
+                        foreach ($this->serviceProviders as $serviceProvider) {
+                            $node->value->items[] = $this->addServiceProvider($serviceProvider);
+                        }
                     }
                 }
             }
