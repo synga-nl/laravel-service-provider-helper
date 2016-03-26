@@ -8,14 +8,15 @@
  */
 
 namespace Synga\ServiceProviderHelper;
+
 use Synga\InheritanceFinder\InheritanceFinderInterface;
 use Synga\InheritanceFinder\PhpClass;
 
 /**
- * Class ServiceProviderFinder
+ * Class ServiceProviderAdder
  * @package Synga\ServiceProviderHelper
  */
-class ServiceProviderFinder
+class ServiceProviderAdder
 {
     /**
      * @var InheritanceFinderInterface
@@ -36,7 +37,35 @@ class ServiceProviderFinder
 
         $usedProviders = \Config::get('app.providers');
 
-        return $this->assortArrays($availableProviders, $usedProviders);
+        $assertedServiceProviders = $this->assortArrays($availableProviders, $usedProviders);
+
+        $serviceProviderPath      = storage_path('service_provider');
+        $serviceProviderCachePath = $serviceProviderPath . '/service_provider.cache';
+
+        if (!file_exists($serviceProviderPath) || !file_exists($serviceProviderCachePath)) {
+            mkdir($serviceProviderPath);
+            file_put_contents($serviceProviderCachePath, serialize([]));
+        }
+
+        $cache = unserialize(file_get_contents($serviceProviderCachePath));
+
+        if (!empty($cache['ignore'])) {
+            foreach ($assertedServiceProviders['first_diff_second'] as $key => $serviceProvider) {
+                if (in_array($serviceProvider, $cache['ignore'])) {
+                    unset($assertedServiceProviders['first_diff_second'][$key]);
+                }
+            }
+        }
+
+        return $assertedServiceProviders;
+    }
+
+    public function findActiveServiceProviders() {
+        return \Config::get('app.providers');
+    }
+
+    public function writeAppFile($toBeAddedServiceProviders) {
+
     }
 
     /**
@@ -55,8 +84,8 @@ class ServiceProviderFinder
             ];
         }
 
-        foreach(['firstArray' => $firstArray, 'secondArray' => $secondArray] as $varName => $arg){
-            if(is_a($arg[0], PhpClass::class)){
+        foreach (['firstArray' => $firstArray, 'secondArray' => $secondArray] as $varName => $arg) {
+            if (is_a($arg[0], PhpClass::class)) {
                 $$varName = $this->getFullQualifiedNamespaceArray($arg);
             }
         }

@@ -5,10 +5,10 @@ use PhpParser\Node\Expr;
 use PhpParser\PrettyPrinter\Standard;
 
 /**
- * Class ServiceProviderPrettyPrinter
+ * Class LaravelPrettyPrinter
  * @package Synga\ServiceProviderHelper\Parser\PrettyPrinter
  */
-class ServiceProviderPrettyPrinter extends Standard
+class LaravelPrettyPrinter extends Standard
 {
     /**
      * @param array $stmts

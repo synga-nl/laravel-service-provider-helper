@@ -1,6 +1,7 @@
 <?php
 namespace Synga\ServiceProviderHelper;
 
+use PhpParser\ParserFactory;
 use Synga\InheritanceFinder\File\FileConfig;
 use Synga\InheritanceFinder\InheritanceFinderFactory;
 
@@ -24,8 +25,12 @@ class ServiceProviderHelperServiceProvider extends \Illuminate\Support\ServicePr
                 return InheritanceFinderFactory::getInheritanceFinder($config);
             });
 
+        $this->app->singleton('PhpParser\Parser', function(){
+            return (new ParserFactory)->create(ParserFactory::PREFER_PHP7);
+        });
+
         $this->commands([
-            \Synga\ServiceProviderHelper\Command\DetectServiceProviderCommand::class
+            \Synga\ServiceProviderHelper\Command\AddServiceProviderCommand::class
         ]);
     }
 

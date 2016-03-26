@@ -5,10 +5,10 @@ use PhpParser\Node;
 use PhpParser\NodeVisitorAbstract;
 
 /**
- * Class AddServiceProviderVisitor
+ * Class ServiceProviderVisitor
  * @package Synga\ServiceProviderHelper\Parser\Visitor
  */
-class AddServiceProviderVisitor extends NodeVisitorAbstract
+class ServiceProviderVisitor extends NodeVisitorAbstract
 {
     /**
      * @var array
@@ -25,7 +25,8 @@ class AddServiceProviderVisitor extends NodeVisitorAbstract
                 if ($node->key->value == "providers") {
                     if (is_array($node->value->items)) {
                         foreach ($this->serviceProviders as $serviceProvider) {
-                            $node->value->items[] = $this->addServiceProvider($serviceProvider);
+                            $arrayItem            = $this->addServiceProvider($serviceProvider);
+                            $node->value->items[] = $arrayItem;
                         }
                     }
                 }
@@ -48,6 +49,10 @@ class AddServiceProviderVisitor extends NodeVisitorAbstract
      * @param $serviceProvider
      */
     public function setServiceProvider($serviceProvider) {
-        $this->serviceProviders[] = $serviceProvider;
+        if (is_array($serviceProvider)) {
+            $this->serviceProviders = array_merge($this->serviceProviders, $serviceProvider);
+        } else {
+            $this->serviceProviders[] = $serviceProvider;
+        }
     }
 }
