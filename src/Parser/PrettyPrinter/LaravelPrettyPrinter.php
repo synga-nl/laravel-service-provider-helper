@@ -53,7 +53,7 @@ class LaravelPrettyPrinter extends Standard
      */
     public function pExpr_Array(Expr\Array_ $node) {
         if ($this->options['shortArraySyntax']) {
-            return '[' . $this->pCommaSeparated($node->items) . PHP_EOL . PHP_EOL . ']';
+            return '[' . $this->pCommaSeparated($node->items) . PHP_EOL . ']';
         } else {
             return 'array(' . $this->pCommaSeparated($node->items) . ')';
         }

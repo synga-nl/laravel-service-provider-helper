@@ -32,27 +32,31 @@ class ServiceProviderAdder
      *
      * @return array
      */
-    public function find() {
+    public function find($readCache = false) {
         $availableProviders = $this->inheritanceFinder->findExtends('\Illuminate\Support\ServiceProvider');
 
         $usedProviders = \Config::get('app.providers');
 
         $assertedServiceProviders = $this->assortArrays($availableProviders, $usedProviders);
 
-        $serviceProviderPath      = storage_path('service_provider');
-        $serviceProviderCachePath = $serviceProviderPath . '/service_provider.cache';
+        if ($readCache === true) {
+            $serviceProviderPath      = storage_path('service_provider');
+            $serviceProviderCachePath = $serviceProviderPath . '/service_provider.cache';
 
-        if (!file_exists($serviceProviderPath) || !file_exists($serviceProviderCachePath)) {
-            mkdir($serviceProviderPath);
-            file_put_contents($serviceProviderCachePath, serialize([]));
-        }
+            if (!file_exists($serviceProviderPath) || !file_exists($serviceProviderCachePath)) {
+                if (!file_exists($serviceProviderPath)) {
+                    mkdir($serviceProviderPath);
+                }
+                file_put_contents($serviceProviderCachePath, serialize([]));
+            }
 
-        $cache = unserialize(file_get_contents($serviceProviderCachePath));
+            $cache = unserialize(file_get_contents($serviceProviderCachePath));
 
-        if (!empty($cache['ignore'])) {
-            foreach ($assertedServiceProviders['first_diff_second'] as $key => $serviceProvider) {
-                if (in_array($serviceProvider, $cache['ignore'])) {
-                    unset($assertedServiceProviders['first_diff_second'][$key]);
+            if (!empty($cache['ignore'])) {
+                foreach ($assertedServiceProviders['first_diff_second'] as $key => $serviceProvider) {
+                    if (in_array($serviceProvider, $cache['ignore'])) {
+                        unset($assertedServiceProviders['first_diff_second'][$key]);
+                    }
                 }
             }
         }
@@ -60,12 +64,10 @@ class ServiceProviderAdder
         return $assertedServiceProviders;
     }
 
-    public function findActiveServiceProviders() {
-        return \Config::get('app.providers');
-    }
-
-    public function writeAppFile($toBeAddedServiceProviders) {
-
+    public function writeCache($serviceProviders) {
+        if (!empty($serviceProviders) && is_array($serviceProviders)) {
+            file_put_contents(storage_path('service_provider/service_provider.cache'), serialize(['ignore' => $serviceProviders]));
+        }
     }
 
     /**

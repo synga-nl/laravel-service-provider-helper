@@ -11,8 +11,12 @@ namespace Synga\ServiceProviderHelper\Command;
 
 
 use Illuminate\Console\Command;
+use Synga\ConsoleAbstraction\ConsoleInteraction;
+use Synga\ConsoleAbstraction\Laravel\Input;
+use Synga\ConsoleAbstraction\Laravel\Output;
 use Synga\ServiceProviderHelper\ServiceProviderAdder;
 use Synga\ServiceProviderHelper\ServiceProviderFileParser;
+use Synga\ServiceProviderHelper\ServiceProviderService;
 
 class AddServiceProviderCommand extends Command
 {
@@ -21,7 +25,7 @@ class AddServiceProviderCommand extends Command
      *
      * @var string
      */
-    protected $signature = 'service-provider:add';
+    protected $signature = 'service-provider:add {--c|composer}';
 
     /**
      * The console command description.
@@ -35,27 +39,10 @@ class AddServiceProviderCommand extends Command
      *
      * @return mixed
      */
-    public function handle(ServiceProviderAdder $finder, ServiceProviderFileParser $fileParser) {
-        $configFilePath = config_path('app.php');
-        $differences = $finder->find();
+    public function handle(ServiceProviderAdder $finder, ServiceProviderFileParser $serviceProviderFileParser) {
+        $consoleInteraction = new ConsoleInteraction(new Input($this->input), new Output($this));
 
-        $toBeAdded = [];
-        while (true) {
-            $output = $this->output->choice('Which service provider do you want to add?', array_merge(array_diff($differences['first_diff_second'], $toBeAdded), ['exit']));
-            if ($output == 'exit') {
-                break;
-            } else {
-                $toBeAdded[] = $output;
-            }
-        }
-
-        if (count($toBeAdded)) {
-            $code = $fileParser->parse($toBeAdded, file_get_contents($configFilePath));
-            file_put_contents($configFilePath, "<?php\r\n" . $code);
-
-            $this->output->note(count($toBeAdded) . ' service providers added');
-        } else {
-            $this->output->warning('No service providers are added because none were selected');
-        }
+        $serviceProviderService = new ServiceProviderService($consoleInteraction, $finder, $serviceProviderFileParser);
+        $serviceProviderService->handle();
     }
 }
