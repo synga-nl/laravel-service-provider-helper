@@ -15,12 +15,12 @@ class ServiceProviderHelperServiceProvider extends \Illuminate\Support\ServicePr
      * Registers c
      */
     public function register() {
-        $this->app->when('Synga\ServiceProviderHelper\ServiceProviderFinder')
+        $this->app->when('Synga\ServiceProviderHelper\ServiceProviderAdder')
             ->needs('Synga\InheritanceFinder\InheritanceFinderInterface')
             ->give(function () {
                 $config = new FileConfig();
                 $config->setApplicationRoot(base_path());
-                $config->setCacheDirectory(storage_path('class_cache'));
+                $config->setCacheDirectory(storage_path('synga/class_cache'));
 
                 return InheritanceFinderFactory::getInheritanceFinder($config);
             });
