@@ -20,7 +20,7 @@ class ServiceProviderHelperServiceProvider extends \Illuminate\Support\ServicePr
             ->give(function () {
                 $config = new FileConfig();
                 $config->setApplicationRoot(base_path());
-                $config->setCacheDirectory(storage_path('synga/class_cache'));
+                $config->setCacheDirectory(\Config::get('providers.inheritance_finder_storage_path'));
 
                 return InheritanceFinderFactory::getInheritanceFinder($config);
             });
@@ -34,4 +34,15 @@ class ServiceProviderHelperServiceProvider extends \Illuminate\Support\ServicePr
         ]);
     }
 
+    /**
+     * Perform post-registration booting of services.
+     *
+     * @return void
+     */
+    public function boot()
+    {
+        $this->publishes([
+            __DIR__.'/Laravel/config/providers.php' => config_path('providers.php'),
+        ]);
+    }
 }

@@ -40,8 +40,8 @@ class ServiceProviderAdder
         $assertedServiceProviders = $this->assortArrays($availableProviders, $usedProviders);
 
         if ($readCache === true) {
-            $serviceProviderPath      = storage_path('synga/service_provider');
-            $serviceProviderCachePath = $serviceProviderPath . '/service_provider.cache';
+            $serviceProviderPath      = \Config::get('providers.storage_path');
+            $serviceProviderCachePath = $serviceProviderPath;
 
             if (!file_exists($serviceProviderPath) || !file_exists($serviceProviderCachePath)) {
                 if (!file_exists($serviceProviderPath)) {
@@ -66,7 +66,7 @@ class ServiceProviderAdder
 
     public function writeCache($serviceProviders) {
         if (!empty($serviceProviders) && is_array($serviceProviders)) {
-            file_put_contents(storage_path('synga/service_provider/service_provider.cache'), serialize(['ignore' => $serviceProviders]));
+            file_put_contents(\Config::get('providers.storage_path') . '/service_provider.cache', serialize(['ignore' => $serviceProviders]));
         }
     }
 

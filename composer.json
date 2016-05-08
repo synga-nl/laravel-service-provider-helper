@@ -16,7 +16,8 @@
   "license": "MIT",
   "require": {
     "php": ">=5.4",
-    "synga/inheritance-finder": "*@dev",
+    "synga/inheritance-finder": "1.0.*",
+    "synga/console-abstraction": "1.0.*",
     "laravel/framework": "5.*"
   },
   "require-dev" : {
