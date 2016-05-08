@@ -41,11 +41,11 @@ class ServiceProviderAdder
 
         if ($readCache === true) {
             $serviceProviderPath      = \Config::get('providers.storage_path');
-            $serviceProviderCachePath = $serviceProviderPath;
+            $serviceProviderCachePath = $serviceProviderPath . '/service_provider.cache';
 
             if (!file_exists($serviceProviderPath) || !file_exists($serviceProviderCachePath)) {
                 if (!file_exists($serviceProviderPath)) {
-                    mkdir($serviceProviderPath);
+                    mkdir($serviceProviderPath, 0775, true);
                 }
                 file_put_contents($serviceProviderCachePath, serialize([]));
             }
