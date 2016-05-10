@@ -21,7 +21,7 @@ Add the following line to you composer.json file. Make sure it is the last entry
 ```
 
 From this moment, everytime you do a composer update this package checks if there are new service providers. When there
-are new service providers it will ask if you want to add them.
+are new service providers it will ask if you want to add them. You can add multiple service providers at once. The service providers are added after you choose `exit`.
 
 ## Usage
 
@@ -35,3 +35,10 @@ You can add the `--composer` or `-c` option to run the command in composer mode 
 
 ##Acknowledgements:
 - When you add a service provider, your app.php will have a slightly different formatting. I'm busy with finding a solution
+
+## Problems
+If you get an error after composer update, make sure you have the latest version of composer. You can run 
+
+```
+composer self-update
+```
