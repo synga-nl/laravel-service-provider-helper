@@ -3,6 +3,10 @@ namespace Synga\ServiceProviderHelper;
 
 use Synga\ConsoleAbstraction\Contracts\ConsoleInteractionInterface;
 
+/**
+ * Class ServiceProviderService
+ * @package Synga\ServiceProviderHelper
+ */
 class ServiceProviderService
 {
     /**
@@ -25,6 +29,12 @@ class ServiceProviderService
      */
     protected $fileParser;
 
+    /**
+     * ServiceProviderService constructor.
+     * @param ConsoleInteractionInterface $consoleInteraction
+     * @param ServiceProviderAdder $finder
+     * @param ServiceProviderFileParser $fileParser
+     */
     public function __construct(ConsoleInteractionInterface $consoleInteraction, ServiceProviderAdder $finder, ServiceProviderFileParser $fileParser) {
         $this->consoleInteraction = $consoleInteraction;
         $this->finder             = $finder;
@@ -33,6 +43,9 @@ class ServiceProviderService
         $this->output             = $consoleInteraction->getOutput();
     }
 
+    /**
+     * Handles the current command based on the ConsoleInteractionInterface.
+     */
     public function handle() {
         $configFilePath = config_path('app.php');
         $composer = $this->input->getOption('composer');
@@ -72,6 +85,11 @@ class ServiceProviderService
         }
     }
 
+    /**
+     * @param $list
+     * @param $toBeAdded
+     * @return array
+     */
     protected function getServiceProviderList($list, $toBeAdded) {
         return array_diff($list, $toBeAdded);
     }

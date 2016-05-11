@@ -23,7 +23,7 @@ class AddServiceProviderComposerCommand extends ComposerCommandAbstract
      * @param Event $event
      */
     public static function addServiceProvider(Event $event) {
-         self::bootLaravel($event);
+        self::bootLaravel($event);
 
         self::$consoleInteraction->getInput()->setOption('composer', true);
 

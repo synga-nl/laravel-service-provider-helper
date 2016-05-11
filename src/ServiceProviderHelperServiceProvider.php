@@ -12,7 +12,7 @@ use Synga\InheritanceFinder\InheritanceFinderFactory;
 class ServiceProviderHelperServiceProvider extends \Illuminate\Support\ServiceProvider
 {
     /**
-     * Registers c
+     * Register the service provider.
      */
     public function register() {
         $this->app->when('Synga\ServiceProviderHelper\ServiceProviderAdder')
